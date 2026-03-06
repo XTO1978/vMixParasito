@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:VMixParasite.Models"
+             xmlns:vm="clr-namespace:VMixParasite.ViewModels"
+             x:Class="VMixParasite.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="vMix Canoe Slalom">
+
+    <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="8" RowSpacing="6">
+
+        <!-- Row 0: Start List -->
+        <Border Stroke="#E0E0E0" Padding="6" Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="6"/>
+            </Border.StrokeShape>
+            <Grid RowDefinitions="Auto,*,Auto" RowSpacing="4">
+                <Label Text="Lista de Salida" FontAttributes="Bold" FontSize="13"/>
+
+                <CollectionView Grid.Row="1"
+                                ItemsSource="{Binding Competitors}"
+                                SelectedItem="{Binding SelectedCompetitor, Mode=TwoWay}"
+                                SelectionMode="Single">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="40,*,*" Padding="4,2" BackgroundColor="#E8EAF6">
+                            <Label Text="#" FontAttributes="Bold" FontSize="11"/>
+                            <Label Text="Nombre" FontAttributes="Bold" FontSize="11" Grid.Column="1"/>
+                            <Label Text="Club" FontAttributes="Bold" FontSize="11" Grid.Column="2"/>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Competitor">
+                            <Grid ColumnDefinitions="40,*,*" Padding="4,3">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#BBDEFB"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                                <Label Text="{Binding Dorsal}" FontAttributes="Bold" FontSize="12" VerticalOptions="Center"/>
+                                <Label Text="{Binding Name}" FontSize="12" Grid.Column="1" VerticalOptions="Center"/>
+                                <Label Text="{Binding Club}" FontSize="11" Grid.Column="2" TextColor="#666666" VerticalOptions="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <HorizontalStackLayout Grid.Row="2" Spacing="4">
+                    <Button Text="Añadir" Command="{Binding AddCompetitorCommand}"
+                            BackgroundColor="#4CAF50" TextColor="White" FontSize="11" Padding="8,4"/>
+                    <Button Text="Eliminar" Command="{Binding RemoveCompetitorCommand}"
+                            BackgroundColor="#F44336" TextColor="White" FontSize="11" Padding="8,4"/>
+                    <Button Text="CSV" Command="{Binding ImportCsvCommand}"
+                            BackgroundColor="#FF9800" TextColor="White" FontSize="11" Padding="8,4"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Row 1: Folder + Record -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="4">
+            <Label Text="Carpeta:" VerticalOptions="Center" FontSize="11" TextColor="#666666"/>
+            <Entry Text="{Binding RecordingFolder}" Placeholder="Seleccionar carpeta..." FontSize="11" HeightRequest="30" Grid.Column="1"/>
+            <Button Text="📁" Command="{Binding PickFolderCommand}" Grid.Column="2" FontSize="11" Padding="8,4"/>
+            <Button Text="{Binding RecordingButtonText}"
+                    Command="{Binding ToggleRecordingCommand}"
+                    BackgroundColor="{Binding RecordingButtonColor}"
+                    TextColor="White"
+                    FontSize="12"
+                    FontAttributes="Bold"
+                    Padding="12,4"
+                    Grid.Column="3"/>
+        </Grid>
+
+        <!-- Row 2: Status Bar -->
+        <Border Stroke="#E0E0E0" Padding="6,3" Grid.Row="2" BackgroundColor="#F5F5F5">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="4"/>
+            </Border.StrokeShape>
+            <Label Text="{Binding StatusMessage}" FontSize="11"/>
+        </Border>
+
+    </Grid>
+
+</ContentPage>
