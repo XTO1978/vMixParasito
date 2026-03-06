@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:VMixParasite.ViewModels"
              x:Class="VMixParasite.MainPage"
              x:DataType="vm:MainViewModel"
-             Title="vMix Canoe Slalom">
+             Title="vMix RFEP :-)">
 
     <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="8" RowSpacing="6">
 
